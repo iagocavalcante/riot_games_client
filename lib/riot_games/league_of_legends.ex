@@ -369,9 +369,9 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Optional
 
-  * `region` - The region of the summoner. Defaults to "na1".
+  * `region` - The region of the summoner. Defaults to "AMERICAS".
   """
-  def match(match_id, region \\ "na1") when is_binary(match_id),
+  def match(match_id, region \\ "AMERICAS") when is_binary(match_id),
     do: RiotGames.get(region, "/lol/match/v5/matches/:id", id: match_id)
 
   @doc """
@@ -383,9 +383,9 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Optional
 
-  * `region` - The region of the summoner. Defaults to "na1".
+  * `region` - The region of the summoner. Defaults to "AMERICAS".
   """
-  def match_timeline(match_id, region \\ "na1") when is_binary(match_id),
+  def match_timeline(match_id, region \\ "AMERICAS") when is_binary(match_id),
     do: RiotGames.get(region, "/lol/match/v5/matches/:id/timeline", id: match_id)
 
   @doc """
