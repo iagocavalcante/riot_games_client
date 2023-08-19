@@ -56,10 +56,16 @@ defmodule RiotGames.LeagueOfLegends do
   ## Optional
 
   * `region` - The region of the summoner. Defaults to "na1".
+  * `count` - The number of top champion masteries to fetch. Defaults to 3.
   """
-  def champion_masteries_top(summoner_id, region \\ "na1") when is_binary(summoner_id) do
-    RiotGames.get(region, "/lol/champion-mastery/v4/champion-masteries/by-summoner/:id/top",
-      id: summoner_id
+  def champion_masteries_top(summoner_id, opts \\ []) when is_binary(summoner_id) do
+    region = Keyword.get(opts, :region, "na1")
+
+    RiotGames.get(
+      region,
+      "/lol/champion-mastery/v4/champion-masteries/by-summoner/:id/top",
+      [id: summoner_id],
+      opts
     )
   end
 
@@ -110,12 +116,17 @@ defmodule RiotGames.LeagueOfLegends do
   ## Optional
 
   * `region` - The region of the summoner. Defaults to "na1".
+  * `limit` - The number of entries to fetch.
   """
-  def challenge_leaderboard(challenge_id, level, region \\ "na1")
+  def challenge_leaderboard(challenge_id, level, opts \\ [])
       when is_binary(challenge_id) and is_binary(level) do
-    RiotGames.get(region, "/lol/challenges/v1/challenges/:id/leaderboards/:level",
-      id: challenge_id,
-      level: level
+    region = Keyword.get(opts, :region, "na1")
+
+    RiotGames.get(
+      region,
+      "/lol/challenges/v1/challenges/:id/leaderboards/:level",
+      [id: challenge_id, level: level],
+      opts
     )
   end
 
@@ -321,14 +332,17 @@ defmodule RiotGames.LeagueOfLegends do
   ## Optional
 
   * `region` - The region of the summoner. Defaults to "na1".
+  * `page` - The page to use for pagination. Defaults to 1.
   """
-  def league_entries(queue, tier, division, region \\ "na1", page \\ 1)
+  def league_entries(queue, tier, division, opts \\ [])
       when is_binary(queue) and is_binary(tier) and is_binary(division) do
+    region = Keyword.get(opts, :region, "na1")
+
     RiotGames.get(
       region,
       "/lol/league/v4/entries/:queue/:tier/:division",
       [queue: queue, tier: tier, division: division],
-      page: page
+      opts
     )
   end
 
@@ -383,10 +397,18 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Optional
 
-  * `region` - The region of the summoner. Defaults to "na1".
+  * `region` - The region of the summoner. Defaults to "AMERICAS".
+  * `startTime` - The start time to use for filtering match IDs.
+  * `endTime` - The end time to use for filtering match IDs.
+  * `queue` - The queue to use for filtering match IDs.
+  * `type` - The type to use for filtering match IDs.
+  * `start` - The start index to use for filtering match IDs.
+  * `count` - The count to use for filtering match IDs.
   """
-  def matches_by_player(puuid, region \\ "na1") when is_binary(puuid),
-    do: RiotGames.get(region, "/lol/match/v5/matches/by-puuid/:id/ids", id: puuid)
+  def matches_by_player(puuid, opts \\ []) when is_binary(puuid) do
+    region = Keyword.get(opts, :region, "AMERICAS")
+    RiotGames.get(region, "/lol/match/v5/matches/by-puuid/:id/ids", [id: puuid], opts)
+  end
 
   @doc """
   Fetches the status of league of legends platform.
