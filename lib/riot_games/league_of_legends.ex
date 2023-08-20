@@ -411,7 +411,7 @@ defmodule RiotGames.LeagueOfLegends do
   end
 
   @doc """
-  Fetches the status of league of legends platform.
+  Fetches the status of the platform.
 
   ## Optional
 

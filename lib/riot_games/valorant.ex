@@ -76,7 +76,7 @@ defmodule RiotGames.Valorant do
   end
 
   @doc """
-  Fetches the status of the valorant platform.
+  Fetches the status of the platform.
 
   ## Optional
 
