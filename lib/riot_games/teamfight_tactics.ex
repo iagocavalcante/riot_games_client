@@ -89,9 +89,9 @@ defmodule RiotGames.TeamfightTactics do
 
   ## Optional
 
-  * `region` - The region to fetch content for. Defaults to `"na1"`.
+  * `region` - The region to fetch content for. Defaults to `"americas"`.
   """
-  def match(match_id, region \\ "na1"),
+  def match(match_id, region \\ "americas"),
     do: RiotGames.get(region, "/tft/match/v1/matches/:id", id: match_id)
 
   @doc """
@@ -103,7 +103,7 @@ defmodule RiotGames.TeamfightTactics do
 
   ## Optional
 
-  * `region` - The region of the summoner. Defaults to "AMERICAS".
+  * `region` - The region of the summoner. Defaults to "americas".
   * `startTime` - The start time to use for filtering match IDs.
   * `endTime` - The end time to use for filtering match IDs.
   * `queue` - The queue to use for filtering match IDs.
@@ -112,7 +112,7 @@ defmodule RiotGames.TeamfightTactics do
   * `count` - The count to use for filtering match IDs.
   """
   def matches_by_player(puuid, opts \\ []) when is_binary(puuid) do
-    region = Keyword.get(opts, :region, "AMERICAS")
+    region = Keyword.get(opts, :region, "americas")
     RiotGames.get(region, "/tft/match/v1/matches/by-puuid/:id/ids", [id: puuid], opts)
   end
 

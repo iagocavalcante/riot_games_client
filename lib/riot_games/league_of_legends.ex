@@ -369,9 +369,9 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Optional
 
-  * `region` - The region of the summoner. Defaults to "AMERICAS".
+  * `region` - The region of the summoner. Defaults to "americas".
   """
-  def match(match_id, region \\ "AMERICAS") when is_binary(match_id),
+  def match(match_id, region \\ "americas") when is_binary(match_id),
     do: RiotGames.get(region, "/lol/match/v5/matches/:id", id: match_id)
 
   @doc """
@@ -383,9 +383,9 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Optional
 
-  * `region` - The region of the summoner. Defaults to "AMERICAS".
+  * `region` - The region of the summoner. Defaults to "americas".
   """
-  def match_timeline(match_id, region \\ "AMERICAS") when is_binary(match_id),
+  def match_timeline(match_id, region \\ "americas") when is_binary(match_id),
     do: RiotGames.get(region, "/lol/match/v5/matches/:id/timeline", id: match_id)
 
   @doc """
@@ -397,7 +397,7 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Optional
 
-  * `region` - The region of the summoner. Defaults to "AMERICAS".
+  * `region` - The region of the summoner. Defaults to "americas".
   * `startTime` - The start time to use for filtering match IDs.
   * `endTime` - The end time to use for filtering match IDs.
   * `queue` - The queue to use for filtering match IDs.
@@ -406,7 +406,7 @@ defmodule RiotGames.LeagueOfLegends do
   * `count` - The count to use for filtering match IDs.
   """
   def matches_by_player(puuid, opts \\ []) when is_binary(puuid) do
-    region = Keyword.get(opts, :region, "AMERICAS")
+    region = Keyword.get(opts, :region, "americas")
     RiotGames.get(region, "/lol/match/v5/matches/by-puuid/:id/ids", [id: puuid], opts)
   end
 
