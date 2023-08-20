@@ -6,27 +6,22 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `summoner_id` - The summoner ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def active_game_by_summoner(summoner_id, region \\ "na1") when is_binary(summoner_id),
-    do: RiotGames.get(region, "/lol/spectator/v4/active-games/by-summoner/:id", id: summoner_id)
+  def active_game_by_summoner(region, summoner_id)
+      when is_binary(region) and is_binary(summoner_id),
+      do: RiotGames.get(region, "/lol/spectator/v4/active-games/by-summoner/:id", id: summoner_id)
 
   @doc """
   Fetches the champion masteries of a summoner.
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `summoner_id` - The summoner ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def champion_masteries(summoner_id, region \\ "na1") when is_binary(summoner_id) do
+  def champion_masteries(region, summoner_id) when is_binary(region) and is_binary(summoner_id) do
     RiotGames.get(region, "/lol/champion-mastery/v4/champion-masteries/by-summoner/:id",
       id: summoner_id
     )
@@ -37,35 +32,33 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `summoner_id` - The summoner ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def champion_masteries_score(summoner_id, region \\ "na1") when is_binary(summoner_id),
-    do: RiotGames.get(region, "/lol/champion-mastery/v4/scores/by-summoner/:id", id: summoner_id)
+  def champion_masteries_score(region, summoner_id)
+      when is_binary(region) and is_binary(summoner_id) do
+    RiotGames.get(region, "/lol/champion-mastery/v4/scores/by-summoner/:id", id: summoner_id)
+  end
 
   @doc """
   Fetches the top champion masteries of a summoner.
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `summoner_id` - The summoner ID.
 
   ## Optional
 
-  * `region` - The region of the summoner. Defaults to "na1".
   * `count` - The number of top champion masteries to fetch. Defaults to 3.
   """
-  def champion_masteries_top(summoner_id, opts \\ []) when is_binary(summoner_id) do
-    region = Keyword.get(opts, :region, "na1")
-
+  def champion_masteries_top(region, summoner_id, count \\ 3)
+      when is_binary(region) and is_binary(summoner_id) and is_integer(count) do
     RiotGames.get(
       region,
       "/lol/champion-mastery/v4/champion-masteries/by-summoner/:id/top",
       [id: summoner_id],
-      opts
+      count: count
     )
   end
 
@@ -74,15 +67,12 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `summoner_id` - The summoner ID.
   * `champion_id` - The champion ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def champion_mastery(summoner_id, champion_id, region \\ "na1")
-      when is_binary(summoner_id) and is_integer(champion_id) do
+  def champion_mastery(region, summoner_id, champion_id)
+      when is_binary(region) and is_binary(summoner_id) and is_integer(champion_id) do
     RiotGames.get(
       region,
       "/lol/champion-mastery/v4/champion-masteries/by-summoner/:summoner_id/by-champion/:champion_id",
@@ -96,13 +86,10 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region to fetch content for.
   * `challenge_id` - The challenge ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def challenge_config(challenge_id, region \\ "na1") when is_binary(challenge_id),
+  def challenge_config(region, challenge_id) when is_binary(region) and is_binary(challenge_id),
     do: RiotGames.get(region, "/lol/challenges/v1/challenges/:id/config", id: challenge_id)
 
   @doc """
@@ -110,23 +97,21 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region to fetch content for.
   * `challenge_id` - The challenge ID.
   * `level` - The challenge level. Valid values: MASTER, GRANDMASTER, and CHALLENGER
 
   ## Optional
 
-  * `region` - The region of the summoner. Defaults to "na1".
   * `limit` - The number of entries to fetch.
   """
-  def challenge_leaderboard(challenge_id, level, opts \\ [])
-      when is_binary(challenge_id) and is_binary(level) do
-    region = Keyword.get(opts, :region, "na1")
-
+  def challenge_leaderboard(region, challenge_id, level, limit \\ nil)
+      when is_binary(region) and is_binary(challenge_id) and is_binary(level) do
     RiotGames.get(
       region,
       "/lol/challenges/v1/challenges/:id/leaderboards/:level",
       [id: challenge_id, level: level],
-      opts
+      limit: limit
     )
   end
 
@@ -135,47 +120,42 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region to fetch content for.
   * `challenge_id` - The challenge ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def chellenge_percentile(challenge_id, region \\ "na1") when is_binary(challenge_id),
-    do: RiotGames.get(region, "/lol/challenges/v1/challenges/:id/percentiles", id: challenge_id)
+  def chellenge_percentile(region, challenge_id)
+      when is_binary(region) and is_binary(challenge_id),
+      do: RiotGames.get(region, "/lol/challenges/v1/challenges/:id/percentiles", id: challenge_id)
 
   @doc """
   Fetches the challenger league for a queue.
 
   ## Required
 
+  * `region` - The region to fetch content for.
   * `queue` - The queue type. Valid values: RANKED_SOLO_5x5, RANKED_FLEX_SR, RANKED_FLEX_TT, RANKED_TFT
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def challenger_league(queue, region \\ "na1") when is_binary(queue),
+  def challenger_league(region, queue) when is_binary(region) and is_binary(queue),
     do: RiotGames.get(region, "/lol/league/v4/challengerleagues/by-queue/:queue", queue: queue)
 
   @doc """
   Fetches a list of all basic challenge configuration information
 
-  ## Optional
+  ## Required
 
-  * `region` - The region of the summoner. Defaults to "na1".
+  * `region` - The region to fetch content for.
   """
-  def challenges_config(region \\ "na1"),
+  def challenges_config(region) when is_binary(region),
     do: RiotGames.get(region, "/lol/challenges/v1/challenges/config")
 
   @doc """
   Fetches a map of level to percentile of players who have achieved it.
 
-  ## Optional
+  ## Required
 
-  * `region` - The region of the summoner. Defaults to "na1".
+  * `region` - The region to fetch content for.
   """
-  def challenges_percentiles(region \\ "na1"),
+  def challenges_percentiles(region) when is_binary(region),
     do: RiotGames.get(region, "/lol/challenges/v1/challenges/percentiles")
 
   @doc """
@@ -183,23 +163,20 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the player.
   * `puuid` - The player ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def challenges_by_player(puuid, region \\ "na1") when is_binary(puuid),
+  def challenges_by_player(region, puuid) when is_binary(region) and is_binary(puuid),
     do: RiotGames.get(region, "/lol/challenges/v1/player-data/:id", id: puuid)
 
   @doc """
   Fetches the champion rotations
 
-  ## Optional
+  ## Required
 
-  * `region` - The region of the summoner. Defaults to "na1".
+  * `region` - The region to fetch content for.
   """
-  def champion_rotations(region \\ "na1"),
+  def champion_rotations(region) when is_binary(region),
     do: RiotGames.get(region, "/lol/platform/v3/champion-rotations")
 
   @doc """
@@ -207,13 +184,10 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the player.
   * `puuid` - The player ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def clash_player_by_puuid(puuid, region \\ "na1") when is_binary(puuid),
+  def clash_player_by_puuid(region, puuid) when is_binary(region) and is_binary(puuid),
     do: RiotGames.get(region, "/lol/clash/v1/players/by-puuid/:id", id: puuid)
 
   @doc """
@@ -221,37 +195,32 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `summoner_id` - The summoner ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def clash_player_by_summoner_id(summoner_id, region \\ "na1") when is_binary(summoner_id),
-    do: RiotGames.get(region, "/lol/clash/v1/players/by-summoner/:id", id: summoner_id)
+  def clash_player_by_summoner_id(region, summoner_id)
+      when is_binary(region) and is_binary(summoner_id),
+      do: RiotGames.get(region, "/lol/clash/v1/players/by-summoner/:id", id: summoner_id)
 
   @doc """
   Fetches a clash team by ID.
 
   ## Required
 
+  * `region` - The region of the team.
   * `team_id` - The team ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def clash_team(team_id, region \\ "na1") when is_binary(team_id),
+  def clash_team(region, team_id) when is_binary(region) and is_binary(team_id),
     do: RiotGames.get(region, "/lol/clash/v1/teams/:id", id: team_id)
 
   @doc """
   Fetches clash tournaments.
 
-  ## Optional
+  ## Required
 
-  * `region` - The region of the summoner. Defaults to "na1".
+  * `region` - The region of the tournaments.
   """
-  def clash_tournaments(region \\ "na1"),
+  def clash_tournaments(region) when is_binary(region),
     do: RiotGames.get(region, "/lol/clash/v1/tournaments")
 
   @doc """
@@ -259,13 +228,10 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the team.
   * `team_id` - The team ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def clash_tournaments_by_team(team_id, region \\ "na1") when is_binary(team_id),
+  def clash_tournaments_by_team(region, team_id) when is_binary(region) and is_binary(team_id),
     do: RiotGames.get(region, "/lol/clash/v1/tournaments/by-team/:id", id: team_id)
 
   @doc """
@@ -273,23 +239,20 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the tournament.
   * `tournament_id` - The tournament ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def clash_tournament(tournament_id, region \\ "na1") when is_binary(tournament_id),
+  def clash_tournament(region, tournament_id) when is_binary(region) and is_binary(tournament_id),
     do: RiotGames.get(region, "/lol/clash/v1/tournaments/:id", id: tournament_id)
 
   @doc """
   Fetches a list of featured games.
 
-  ## Optional
+  ## Required
 
-  * `region` - The region of the summoner. Defaults to "na1".
+  * `region` - The region of the games.
   """
-  def featured_games(region \\ "na1"),
+  def featured_games(region) when is_binary(region),
     do: RiotGames.get(region, "/lol/spectator/v4/featured-games")
 
   @doc """
@@ -297,13 +260,10 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
-  * `queue` - The queue type. Valid values: RANKED_SOLO_5x5, RANKED_FLEX_SR, RANKED_FLEX_TT, RANKED_TFT
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
+  * `region` - The region of the league.
+  * `queue` - The queue type. Valid values: RANKED_SOLO_5x5, RANKED_FLEX_SR, RANKED_FLEX_TT
   """
-  def grandmaster_league(queue, region \\ "na1") when is_binary(queue),
+  def grandmaster_league(region, queue) when is_binary(region) and is_binary(queue),
     do: RiotGames.get(region, "/lol/league/v4/grandmasterleagues/by-queue/:queue", queue: queue)
 
   @doc """
@@ -311,13 +271,10 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the league.
   * `league_id` - The league ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def league(league_id, region \\ "na1") when is_binary(league_id),
+  def league(region, league_id) when is_binary(region) and is_binary(league_id),
     do: RiotGames.get(region, "/lol/league/v4/leagues/:id", id: league_id)
 
   @doc """
@@ -325,24 +282,22 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
-  * `queue` - The queue type. Valid values: RANKED_SOLO_5x5, RANKED_FLEX_SR, RANKED_FLEX_TT, RANKED_TFT
+  * `region` - The region of the league.
+  * `queue` - The queue type. Valid values: RANKED_SOLO_5x5, RANKED_FLEX_SR, RANKED_FLEX_TT
   * `tier` - The tier type. Valid values: CHALLENGER, GRANDMASTER, MASTER, DIAMOND, PLATINUM, GOLD, SILVER, BRONZE, IRON
   * `division` - The division type. Valid values: I, II, III, IV
 
   ## Optional
 
-  * `region` - The region of the summoner. Defaults to "na1".
   * `page` - The page to use for pagination. Defaults to 1.
   """
-  def league_entries(queue, tier, division, opts \\ [])
-      when is_binary(queue) and is_binary(tier) and is_binary(division) do
-    region = Keyword.get(opts, :region, "na1")
-
+  def league_entries(region, queue, tier, division, page \\ 1)
+      when is_binary(region) and is_binary(queue) and is_binary(tier) and is_binary(division) do
     RiotGames.get(
       region,
       "/lol/league/v4/entries/:queue/:tier/:division",
       [queue: queue, tier: tier, division: division],
-      opts
+      page: page
     )
   end
 
@@ -351,13 +306,10 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
-  * `queue` - The queue type. Valid values: RANKED_SOLO_5x5, RANKED_FLEX_SR, RANKED_FLEX_TT, RANKED_TFT
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
+  * `region` - The region of the league.
+  * `queue` - The queue type. Valid values: RANKED_SOLO_5x5, RANKED_FLEX_SR, RANKED_FLEX_TT
   """
-  def master_league(queue, region \\ "na1") when is_binary(queue),
+  def master_league(region, queue) when is_binary(region) and is_binary(queue),
     do: RiotGames.get(region, "/lol/league/v4/masterleagues/by-queue/:queue", queue: queue)
 
   @doc """
@@ -365,13 +317,10 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the match. Valid values: "americas", "asia", "europe", and "sea".
   * `match_id` - The match ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "americas".
   """
-  def match(match_id, region \\ "americas") when is_binary(match_id),
+  def match(region, match_id) when is_binary(region) and is_binary(match_id),
     do: RiotGames.get(region, "/lol/match/v5/matches/:id", id: match_id)
 
   @doc """
@@ -379,13 +328,10 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the match. Valid values: "americas", "asia", "europe", and "sea".
   * `match_id` - The match ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "americas".
   """
-  def match_timeline(match_id, region \\ "americas") when is_binary(match_id),
+  def match_timeline(region, match_id) when is_binary(region) and is_binary(match_id),
     do: RiotGames.get(region, "/lol/match/v5/matches/:id/timeline", id: match_id)
 
   @doc """
@@ -393,11 +339,11 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
-  * `puuid` - The player ID.
+  * `region` - The region of the player. Valid values: "americas", "asia", "europe", and "sea".
+  * `puuid` - The player puuid.
 
   ## Optional
 
-  * `region` - The region of the summoner. Defaults to "americas".
   * `startTime` - The start time to use for filtering match IDs.
   * `endTime` - The end time to use for filtering match IDs.
   * `queue` - The queue to use for filtering match IDs.
@@ -405,19 +351,18 @@ defmodule RiotGames.LeagueOfLegends do
   * `start` - The start index to use for filtering match IDs.
   * `count` - The count to use for filtering match IDs.
   """
-  def matches_by_player(puuid, opts \\ []) when is_binary(puuid) do
-    region = Keyword.get(opts, :region, "americas")
+  def matches_by_player(region, puuid, opts \\ []) when is_binary(region) and is_binary(puuid) do
     RiotGames.get(region, "/lol/match/v5/matches/by-puuid/:id/ids", [id: puuid], opts)
   end
 
   @doc """
   Fetches the status of the platform.
 
-  ## Optional
+  ## Required
 
-  * `region` - The region of the summoner. Defaults to "na1".
+  * `region` - The region to status of.
   """
-  def status(region \\ "na1"), do: RiotGames.get(region, "/lol/status/v4/platform-data")
+  def status(region), do: RiotGames.get(region, "/lol/status/v4/platform-data")
 
   @doc """
 
@@ -425,13 +370,10 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `account_id` - The account ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def summoner_by_account_id(account_id, region \\ "na1") when is_binary(account_id),
+  def summoner_by_account_id(region, account_id) when is_binary(region) and is_binary(account_id),
     do: RiotGames.get(region, "/lol/summoner/v4/summoners/by-account/:id", id: account_id)
 
   @doc """
@@ -439,13 +381,10 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `id` - The summoner ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def summoner_by_id(id, region \\ "na1") when is_binary(id),
+  def summoner_by_id(region, id) when is_binary(region) and is_binary(id),
     do: RiotGames.get(region, "/lol/summoner/v4/summoners/:id", id: id)
 
   @doc """
@@ -453,13 +392,10 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `name` - The summoner name.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def summoner_by_name(name, region \\ "na1") when is_binary(name),
+  def summoner_by_name(region, name) when is_binary(region) and is_binary(name),
     do: RiotGames.get(region, "/lol/summoner/v4/summoners/by-name/:name", name: name)
 
   @doc """
@@ -467,13 +403,10 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `puuid` - The summoner PUUID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def summoner_by_puuid(puuid, region \\ "na1") when is_binary(puuid),
+  def summoner_by_puuid(region, puuid) when is_binary(region) and is_binary(puuid),
     do: RiotGames.get(region, "/lol/summoner/v4/summoners/by-puuid/:id", id: puuid)
 
   @doc """
@@ -481,12 +414,9 @@ defmodule RiotGames.LeagueOfLegends do
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `summoner_id` - The summoner ID.
-
-  ## Optional
-
-  * `region` - The region of the summoner. Defaults to "na1".
   """
-  def summoner_leagues(summoner_id, region \\ "na1") when is_binary(summoner_id),
+  def summoner_leagues(region, summoner_id) when is_binary(region) and is_binary(summoner_id),
     do: RiotGames.get(region, "/lol/league/v4/entries/by-summoner/:id", id: summoner_id)
 end

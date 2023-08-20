@@ -4,33 +4,32 @@ defmodule RiotGames.TeamfightTactics do
   @doc """
   Fetches the challenger league.
 
-  ## Optional
+  ## Required
 
-  * `region` - The region to fetch content for. Defaults to `"na1"`.
+  * `region` - The region of the challenger league.
   """
-  def challenger_league(region \\ "na1"), do: RiotGames.get(region, "/tft/league/v1/challenger")
+  def challenger_league(region) when is_binary(region),
+    do: RiotGames.get(region, "/tft/league/v1/challenger")
 
   @doc """
   Fetches the grandmaster league.
 
-  ## Optional
+  ## Required
 
-  * `region` - The region to fetch content for. Defaults to `"na1"`.
+  * `region` - The region of the grandmaster league.
   """
-  def grandmaster_league(region \\ "na1"), do: RiotGames.get(region, "/tft/league/v1/grandmaster")
+  def grandmaster_league(region) when is_binary(region),
+    do: RiotGames.get(region, "/tft/league/v1/grandmaster")
 
   @doc """
   Fetches the league by id.
 
   ## Required
 
+  * `region` - The region of the league.
   * `league_id` - The league id to fetch.
-
-  ## Optional
-
-  * `region` - The region to fetch content for. Defaults to `"na1"`.
   """
-  def league(league_id, region \\ "na1"),
+  def league(region, league_id) when is_binary(region) and is_binary(league_id),
     do: RiotGames.get(region, "/tft/league/v1/leagues/:id", id: league_id)
 
   @doc """
@@ -38,13 +37,10 @@ defmodule RiotGames.TeamfightTactics do
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `summoner_id` - The summoner id to fetch.
-
-  ## Optional
-
-  * `region` - The region to fetch content for. Defaults to `"na1"`.
   """
-  def league_by_summoner(summoner_id, region \\ "na1"),
+  def league_by_summoner(region, summoner_id) when is_binary(region) and is_binary(summoner_id),
     do: RiotGames.get(region, "/tft/league/v1/entries/by-summoner/:id", id: summoner_id)
 
   @doc """
@@ -52,46 +48,43 @@ defmodule RiotGames.TeamfightTactics do
 
   ## Required
 
+  * `region` - The region of the league.
   * `tier` - The tier to fetch.
   * `division` - The division to fetch.
 
   ## Optional
 
-  * `region` - The region to fetch content for. Defaults to `"na1"`.
   * `page` - The page to fetch.
   """
-  def league_entries(tier, division, opts \\ []) do
-    region = Keyword.get(opts, :region, "na1")
-
+  def league_entries(region, tier, division, page \\ 1)
+      when is_binary(region) and is_binary(tier) and is_binary(division) and is_integer(page) do
     RiotGames.get(
       region,
       "/tft/league/v1/entries/:tier/:division",
       [tier: tier, division: division],
-      opts
+      page: page
     )
   end
 
   @doc """
   Fetches the master league.
 
-  ## Optional
+  ## Required
 
-  * `region` - The region to fetch content for. Defaults to `"na1"`.
+  * `region` - The region of the master league.
   """
-  def master_league(region \\ "na1"), do: RiotGames.get(region, "/tft/league/v1/master")
+  def master_league(region) when is_binary(region),
+    do: RiotGames.get(region, "/tft/league/v1/master")
 
   @doc """
   Fetches the match by id.
 
   ## Required
 
+  * `region` - The region of the match.
   * `match_id` - The match id to fetch.
-
-  ## Optional
-
-  * `region` - The region to fetch content for. Defaults to `"americas"`.
   """
-  def match(match_id, region \\ "americas"),
+  def match(region, match_id) when is_binary(region) and is_binary(match_id),
     do: RiotGames.get(region, "/tft/match/v1/matches/:id", id: match_id)
 
   @doc """
@@ -99,11 +92,11 @@ defmodule RiotGames.TeamfightTactics do
 
   ## Required
 
+  * `region` - The region of the player.
   * `puuid` - The player ID.
 
   ## Optional
 
-  * `region` - The region of the summoner. Defaults to "americas".
   * `startTime` - The start time to use for filtering match IDs.
   * `endTime` - The end time to use for filtering match IDs.
   * `queue` - The queue to use for filtering match IDs.
@@ -111,32 +104,28 @@ defmodule RiotGames.TeamfightTactics do
   * `start` - The start index to use for filtering match IDs.
   * `count` - The count to use for filtering match IDs.
   """
-  def matches_by_player(puuid, opts \\ []) when is_binary(puuid) do
-    region = Keyword.get(opts, :region, "americas")
-    RiotGames.get(region, "/tft/match/v1/matches/by-puuid/:id/ids", [id: puuid], opts)
-  end
+  def matches_by_player(region, puuid, opts \\ []) when is_binary(region) and is_binary(puuid),
+    do: RiotGames.get(region, "/tft/match/v1/matches/by-puuid/:id/ids", [id: puuid], opts)
 
   @doc """
   Fetches the status of the platform.
 
-  ## Optional
+  ## Required
 
-  * `region` - The region to fetch content for. Defaults to `"na1"`.
+  * `region` - The region of the platform.
   """
-  def status(region \\ "na1"), do: RiotGames.get(region, "/tft/status/v1/platform-data")
+  def status(region) when is_binary(region),
+    do: RiotGames.get(region, "/tft/status/v1/platform-data")
 
   @doc """
   Fetches the summoner by account id.
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `account_id` - The account id to fetch.
-
-  ## Optional
-
-  * `region` - The region to fetch content for. Defaults to `"na1"`.
   """
-  def summoner_by_account_id(account_id, region \\ "na1"),
+  def summoner_by_account_id(region, account_id) when is_binary(region) and is_binary(account_id),
     do: RiotGames.get(region, "/tft/summoner/v1/summoners/by-account/:id", id: account_id)
 
   @doc """
@@ -144,13 +133,10 @@ defmodule RiotGames.TeamfightTactics do
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `summoner_id` - The summoner id to fetch.
-
-  ## Optional
-
-  * `region` - The region to fetch content for. Defaults to `"na1"`.
   """
-  def summoner_by_id(summoner_id, region \\ "na1"),
+  def summoner_by_id(region, summoner_id) when is_binary(region) and is_binary(summoner_id),
     do: RiotGames.get(region, "/tft/summoner/v1/summoners/:id", id: summoner_id)
 
   @doc """
@@ -158,13 +144,10 @@ defmodule RiotGames.TeamfightTactics do
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `name` - The name to fetch.
-
-  ## Optional
-
-  * `region` - The region to fetch content for. Defaults to `"na1"`.
   """
-  def summoner_by_name(name, region \\ "na1"),
+  def summoner_by_name(region, name) when is_binary(region) and is_binary(name),
     do: RiotGames.get(region, "/tft/summoner/v1/summoners/by-name/:name", name: name)
 
   @doc """
@@ -172,13 +155,10 @@ defmodule RiotGames.TeamfightTactics do
 
   ## Required
 
+  * `region` - The region of the summoner.
   * `puuid` - The puuid to fetch.
-
-  ## Optional
-
-  * `region` - The region to fetch content for. Defaults to `"na1"`.
   """
-  def summoner_by_puuid(puuid, region \\ "na1"),
+  def summoner_by_puuid(region, puuid) when is_binary(region) and is_binary(puuid),
     do: RiotGames.get(region, "/tft/summoner/v1/summoners/by-puuid/:id", id: puuid)
 
   @doc """
@@ -186,12 +166,9 @@ defmodule RiotGames.TeamfightTactics do
 
   ## Required
 
+  * `region` - The region of the ladder.
   * `queue_id` - The queue id to fetch the top rated ladder for.
-
-  ## Optional
-
-  * `region` - The region to fetch content for. Defaults to `"na1"`.
   """
-  def top_rated_ladder(queue_id, region \\ "na1"),
+  def top_rated_ladder(region, queue_id) when is_binary(region) and is_binary(queue_id),
     do: RiotGames.get(region, "/tft/league/v1/rated-ladders/:queue/top", queue: queue_id)
 end

@@ -4,28 +4,26 @@ defmodule RiotGames.Valorant do
   @doc """
   Fetches valorant content.
 
+  ## Required
+
+  * `region` - The region to fetch content for.
+
   ## Optional
 
-  * `region` - The region to fetch content for. Defaults to `"na"`.
   * `locale` - The locale to fetch content for.
   """
-  def content(opts \\ []) do
-    region = Keyword.get(opts, :region, "na")
-    RiotGames.get(region, "/val/content/v1/contents", [], opts)
-  end
+  def content(region, locale \\ nil) when is_binary(region),
+    do: RiotGames.get(region, "/val/content/v1/contents", [], locale: locale)
 
   @doc """
   Fetches match by id.
 
   ## Required
 
+  * `region` - The region of the match.
   * `match_id` - The match id to fetch.
-
-  ## Optional
-
-  * `region` - The region to fetch content for. Defaults to `"na"`.
   """
-  def match(match_id, region \\ "na"),
+  def match(region, match_id) when is_binary(region) and is_binary(match_id),
     do: RiotGames.get(region, "/val/match/v1/matches/:id", id: match_id)
 
   @doc """
@@ -33,13 +31,10 @@ defmodule RiotGames.Valorant do
 
   ## Required
 
+  * `region` - The region of the matchlist.
   * `puuid` - The puuid to fetch matchlist for.
-
-  ## Optional
-
-  * `region` - The region to fetch content for. Defaults to `"na"`.
   """
-  def matchlist(puuid, region \\ "na"),
+  def matchlist(region, puuid) when is_binary(region) and is_binary(puuid),
     do: RiotGames.get(region, "/val/match/v1/matchlists/by-puuid/:puuid", puuid: puuid)
 
   @doc """
@@ -47,40 +42,36 @@ defmodule RiotGames.Valorant do
 
   ## Required
 
+  * `region` - The region of the leaderboard.
   * `act_id` - The act id to fetch leaderboard for.
 
   ## Optional
 
-  * `region` - The region to fetch content for. Defaults to `"na"`.
   * `size` - The number of entries to fetch.
   * `startIndex` - The index to start fetching entries from.
   """
-  def ranked_leaderboard(act_id, opts \\ []) do
-    region = Keyword.get(opts, :region, "na")
-    RiotGames.get(region, "/val/ranked/v1/leaderboards/by-act/:id", [id: act_id], opts)
-  end
+  def ranked_leaderboard(region, act_id, opts \\ []) when is_binary(region) and is_binary(act_id),
+    do: RiotGames.get(region, "/val/ranked/v1/leaderboards/by-act/:id", [id: act_id], opts)
 
   @doc """
   Fetches recent matches by queue id.
 
   ## Required
 
+  * `region` - The region of the recent matches.
   * `queue_id` - The queue id to fetch recent matches for.
-
-  ## Optional
-
-  * `region` - The region to fetch content for. Defaults to `"na"`.
   """
-  def recent_matches(queue_id, region \\ "na") do
+  def recent_matches(region, queue_id) when is_binary(region) and is_binary(queue_id) do
     RiotGames.get(region, "/val/match/v1/recent-matches/by-queue/:queue_id", queue_id: queue_id)
   end
 
   @doc """
   Fetches the status of the platform.
 
-  ## Optional
+  ## Required
 
-  * `region` - The region to fetch content for. Defaults to `"na"`.
+  * `region` - The region of the platform.
   """
-  def status(region \\ "na"), do: RiotGames.get(region, "/val/status/v1/platform-data")
+  def status(region) when is_binary(region),
+    do: RiotGames.get(region, "/val/status/v1/platform-data")
 end

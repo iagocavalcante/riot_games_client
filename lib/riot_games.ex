@@ -15,29 +15,24 @@ defmodule RiotGames do
 
   ## Required
 
+  * `region` - The region to fetch the account from.
   * `puuid` - The PUUID of the account to fetch.
-
-  ## Optional
-
-  * `region` - The region to fetch the account from. Defaults to `na1`.
   """
-  def account_by_puuid(puuid, region \\ "na1") when is_binary(puuid),
-    do: RiotGames.get(region, "/riot/account/v1/accounts/by-puuid/:id", id: puuid)
+  def account_by_puuid(region, puuid)
+      when is_binary(region) and is_binary(puuid),
+      do: RiotGames.get(region, "/riot/account/v1/accounts/by-puuid/:id", id: puuid)
 
   @doc """
   Fetches a Riot Games account by its Riot ID.
 
   ## Required
 
+  * `region` - The region to fetch the account from.
   * `game_name` - The game name of the account to fetch.
   * `tag_line` - The tag line of the account to fetch.
-
-  ## Optional
-
-  * `region` - The region to fetch the account from. Defaults to `na1`.
   """
-  def account_by_riot_id(game_name, tag_line, region \\ "na1")
-      when is_binary(game_name) and is_binary(tag_line) do
+  def account_by_riot_id(region, game_name, tag_line)
+      when is_binary(region) and is_binary(game_name) and is_binary(tag_line) do
     RiotGames.get(region, "/riot/account/v1/accounts/by-riot-id/:gameName/:tagLine",
       gameName: game_name,
       tagLine: tag_line
@@ -49,14 +44,12 @@ defmodule RiotGames do
 
   ## Required
 
+  * `region` - The region to fetch the active shard for.
   * `game` - The game to fetch the active shard for. Valid values are `val`, or `lor`
   * `puuid` - The PUUID of the account to fetch the active shard for.
-
-  ## Optional
-
-  * `region` - The region to fetch the active shard from. Defaults to `na1`.
   """
-  def active_shard(game, puuid, region \\ "na1") when is_binary(game) and is_binary(puuid) do
+  def active_shard(region, game, puuid)
+      when is_binary(region) and is_binary(game) and is_binary(puuid) do
     RiotGames.get(region, "/riot/account/v1/active-shards/by-game/:game/by-puuid/:puuid",
       game: game,
       puuid: puuid
