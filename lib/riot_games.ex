@@ -2,8 +2,11 @@ defmodule RiotGames do
   use Application
 
   def start(_type, _args) do
+    interval = Application.get_env(:riot_games_client, :interval, 120_000)
+    max = Application.get_env(:riot_games_client, :max, 100)
+
     children = [
-      {SimpleRateLimiter, interval: 120_000, max: 100}
+      {SimpleRateLimiter, interval: interval, max: max}
     ]
 
     opts = [strategy: :one_for_one, name: RiotGames.Supervisor]
