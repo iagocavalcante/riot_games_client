@@ -25,7 +25,7 @@ defmodule RiotGames.MixProject do
 
   defp deps do
     [
-      {:req, "~> 0.3.0"},
+      {:req, "~> 0.4.0"},
       {:simple_rate_limiter, "~> 1.0"},
       {:ex_doc, "~> 0.24", only: :dev, runtime: false}
     ]
